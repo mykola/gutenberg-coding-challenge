@@ -12,10 +12,13 @@ import continents from '../assets/continents.json';
 import { getEmojiFlag } from './utils';
 
 export default function Preview( { countryCode, relatedPosts } ) {
-	if ( ! countryCode ) return null;
+	if ( ! countryCode ) {
+		return null;
+	}
 
-	const emojiFlag = getEmojiFlag( countryCode ),
-		hasRelatedPosts = relatedPosts?.length > 0;
+	const emojiFlag = getEmojiFlag( countryCode );
+
+	const hasRelatedPosts = relatedPosts?.length > 0;
 
 	return (
 		<div className="xwp-country-card">
