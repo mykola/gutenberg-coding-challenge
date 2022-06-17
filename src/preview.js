@@ -10,6 +10,7 @@ import countries from '../assets/countries.json';
 import continentNames from '../assets/continent-names.json';
 import continents from '../assets/continents.json';
 import { getEmojiFlag } from './utils';
+import RelatedPosts from './related-posts';
 
 export default function Preview( { countryCode, relatedPosts } ) {
 	if ( ! countryCode ) {
@@ -54,32 +55,8 @@ export default function Preview( { countryCode, relatedPosts } ) {
 								'xwp-country-card'
 						  ) }
 				</h3>
-				{ hasRelatedPosts && (
-					<ul className="xwp-country-card__related-posts-list">
-						{ relatedPosts.map( ( relatedPost ) => (
-							<li
-								key={ relatedPost.id }
-								className="xwp-country-card__related-post"
-							>
-								<a
-									className="xwp-country-card__related-post-link"
-									href={ relatedPost.link }
-									data-post-id={ relatedPost.id }
-								>
-									<h3 className="xwp-country-card__related-post-title">
-										{ relatedPost.title }
-									</h3>
-									<p
-										className="xwp-country-card__related-post-excerpt"
-										dangerouslySetInnerHTML={ {
-											__html: relatedPost.excerpt,
-										} }
-									/>
-								</a>
-							</li>
-						) ) }
-					</ul>
-				) }
+
+				<RelatedPosts relatedPosts={ relatedPosts } />
 			</div>
 		</div>
 	);
