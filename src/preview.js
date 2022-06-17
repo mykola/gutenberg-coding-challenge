@@ -44,7 +44,8 @@ export default function Preview( { countryCode, relatedPosts } ) {
 								_n(
 									'There is %d related post:',
 									'There are %d related posts:',
-									relatedPosts.length
+									relatedPosts.length,
+									'xwp-country-card'
 								),
 								relatedPosts.length
 						  )
