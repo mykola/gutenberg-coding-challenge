@@ -24,7 +24,7 @@ import './editor.scss';
 export default function Edit( { attributes, setAttributes } ) {
 	const { countryCode, relatedPosts } = attributes;
 
-	const [ preview, setPreview ] = useState();
+	const [ preview, setPreview ] = useState( false );
 
 	useEffect( () => {
 		setPreview( !! countryCode );
