@@ -49,7 +49,7 @@ add_action( 'init', __NAMESPACE__ . '\\disable_emojis' );
  * @return array Difference between the two arrays.
  */
 function remove_emoji_dns_prefetch( $urls, $relation_type ) {
-	if ( 'dns-prefetch' == $relation_type ) {
+	if ( 'dns-prefetch' === $relation_type ) {
 		/** This filter is documented in wp-includes/formatting.php */
 		$emoji_svg_url = apply_filters( 'emoji_svg_url', 'https://s.w.org/images/core/emoji/2/svg/' );
 

@@ -29,3 +29,7 @@ vendor/
 
 # dotenv environment variables file
 .env
+
+# IDE
+.history
+.idea
