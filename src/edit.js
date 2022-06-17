@@ -12,6 +12,8 @@ import {
 import { useEffect, useState } from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
 import { select } from '@wordpress/data';
+import apiFetch from '@wordpress/api-fetch';
+import { addQueryArgs } from '@wordpress/url';
 
 /**
  * Internal dependencies
@@ -49,24 +51,28 @@ export default function Edit( { attributes, setAttributes } ) {
 		async function getRelatedPosts() {
 			const postId = select( 'core/editor' ).getCurrentPostId();
 
-			const response = await window.fetch(
-				`/wp-json/wp/v2/posts?search=${ countries[ countryCode ] }&exclude=${ postId }`
-			);
+			const query = {
+				search: countries[ countryCode ],
+				exclude: postId,
+			};
 
-			if ( ! response.ok ) {
-				throw new Error( `HTTP error! Status: ${ response.status }` );
+			try {
+				const posts = await apiFetch( {
+					path: addQueryArgs( '/wp/v2/posts', query ),
+				} );
+
+				setAttributes( {
+					relatedPosts:
+						posts?.map( ( relatedPost ) => ( {
+							...relatedPost,
+							title:
+								relatedPost.title?.rendered || relatedPost.link,
+							excerpt: relatedPost.excerpt?.rendered || '',
+						} ) ) || [],
+				} );
+			} catch ( e ) {
+				throw new Error( `HTTP error! Status: ${ e.message }` );
 			}
-
-			const posts = await response.json();
-
-			setAttributes( {
-				relatedPosts:
-					posts?.map( ( relatedPost ) => ( {
-						...relatedPost,
-						title: relatedPost.title?.rendered || relatedPost.link,
-						excerpt: relatedPost.excerpt?.rendered || '',
-					} ) ) || [],
-			} );
 		}
 
 		getRelatedPosts();
