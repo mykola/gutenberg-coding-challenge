@@ -10,6 +10,7 @@ import Preview from './preview';
 
 export default function Save( { attributes } ) {
 	const blockProps = useBlockProps.save();
+
 	return (
 		<div { ...blockProps }>
 			<Preview { ...attributes } />

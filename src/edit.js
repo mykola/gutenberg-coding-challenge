@@ -11,6 +11,7 @@ import {
 } from '@wordpress/components';
 import { useEffect, useState } from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
+import { select } from '@wordpress/data';
 
 /**
  * Internal dependencies
@@ -28,8 +29,11 @@ export default function Edit( { attributes, setAttributes } ) {
 	useEffect( () => setPreview( countryCode ), [ countryCode ] );
 
 	const handleChangeCountry = () => {
-		if ( isPreview ) setPreview( false );
-		else if ( countryCode ) setPreview( true );
+		if ( isPreview ) {
+			setPreview( false );
+		} else if ( countryCode ) {
+			setPreview( true );
+		}
 	};
 
 	const handleChangeCountryCode = ( newCountryCode ) => {
@@ -43,13 +47,15 @@ export default function Edit( { attributes, setAttributes } ) {
 
 	useEffect( () => {
 		async function getRelatedPosts() {
-			const postId = window.location.href.match( /post=([\d]+)/ )[ 1 ];
+			const postId = select( 'core/editor' ).getCurrentPostId();
+
 			const response = await window.fetch(
 				`/wp-json/wp/v2/posts?search=${ countries[ countryCode ] }&exclude=${ postId }`
 			);
 
-			if ( ! response.ok )
+			if ( ! response.ok ) {
 				throw new Error( `HTTP error! Status: ${ response.status }` );
+			}
 
 			const posts = await response.json();
 
