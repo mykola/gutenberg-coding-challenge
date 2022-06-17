@@ -23,7 +23,7 @@
 			"query": {
 				"title": {
 					"type": "string",
-					"selector": ".xwp-country-card__related-post-link",
+					"selector": ".xwp-country-card__related-post-title",
 					"source": "text"
 				},
 				"excerpt": {
