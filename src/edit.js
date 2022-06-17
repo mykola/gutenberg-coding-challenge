@@ -17,7 +17,7 @@ import { useSelect } from '@wordpress/data';
  * Internal dependencies
  */
 import countries from '../assets/countries.json';
-import { countryOptions } from './utils';
+import { countryOptions, stripTags } from './utils';
 import Preview from './preview';
 import './editor.scss';
 
@@ -65,8 +65,10 @@ export default function Edit( { attributes, setAttributes } ) {
 			relatedPosts:
 				selectedRelatedPosts?.map( ( relatedPost ) => ( {
 					...relatedPost,
-					title: relatedPost.title?.rendered || relatedPost.link,
-					excerpt: relatedPost.excerpt?.rendered || '',
+					title:
+						stripTags( relatedPost.title?.rendered ) ||
+						relatedPost.link,
+					excerpt: stripTags( relatedPost.excerpt?.rendered ) || '',
 				} ) ) || [],
 		} );
 	}, [ selectedRelatedPosts, setAttributes ] );

@@ -18,3 +18,5 @@ export const countryOptions = Object.entries( countries ).map(
 		label: `${ getEmojiFlag( code ) }  ${ country } — ${ code }`,
 	} )
 );
+
+export const stripTags = ( str ) => str.replace( /(<([^>]+)>)/gi, '' );
