@@ -29,7 +29,7 @@
 	}
 }
 
-.xwp-country-card-flag {
+.xwp-country-card__flag {
 	font-size: calc(200px + 3vw);
 	line-height: 1;
 }
@@ -46,7 +46,7 @@
 	padding: 1.5rem;
 }
 
-.xwp-country-card__related-posts__heading {
+.xwp-country-card__related-posts-heading {
 	margin: 0;
 	font-size: 1.5rem;
 }
@@ -55,15 +55,15 @@
 	padding-left: 1.5rem;
 }
 
-.related-post + .related-post {
+.xwp-country-card__related-post + .xwp-country-card__related-post {
 	margin-top: 1.5rem;
 }
 
-.related-post .title {
+.xwp-country-card__related-post-title {
 	margin: 0;
 	font-size: 1.5rem;
 }
 
-.related-post .excerpt {
+.xwp-country-card__related-post-excerpt {
 	margin: 0;
 }

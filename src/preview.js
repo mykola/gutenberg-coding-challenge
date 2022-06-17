@@ -26,7 +26,7 @@ export default function Preview( { countryCode, relatedPosts } ) {
 				className="xwp-country-card__media"
 				data-emoji-flag={ emojiFlag }
 			>
-				<div className="xwp-country-card-flag">{ emojiFlag }</div>
+				<div className="xwp-country-card__flag">{ emojiFlag }</div>
 			</div>
 			<h3 className="xwp-country-card__heading">
 				{ __( 'Hello from', 'xwp-country-card' ) }{ ' ' }
@@ -37,7 +37,7 @@ export default function Preview( { countryCode, relatedPosts } ) {
 				), { continentNames[ continents[ countryCode ] ] }!
 			</h3>
 			<div className="xwp-country-card__related-posts">
-				<h3 className="xwp-country-card__related-posts__heading">
+				<h3 className="xwp-country-card__related-posts-heading">
 					{ hasRelatedPosts
 						? sprintf(
 								/* translators: number of related posts. */
@@ -55,16 +55,19 @@ export default function Preview( { countryCode, relatedPosts } ) {
 				{ hasRelatedPosts && (
 					<ul className="xwp-country-card__related-posts-list">
 						{ relatedPosts.map( ( relatedPost, index ) => (
-							<li key={ index } className="related-post">
+							<li
+								key={ index }
+								className="xwp-country-card__related-post"
+							>
 								<a
-									className="link"
+									className="xwp-country-card__related-post-link"
 									href={ relatedPost.link }
 									data-post-id={ relatedPost.id }
 								>
-									<h3 className="title">
+									<h3 className="xwp-country-card__related-post-title">
 										{ relatedPost.title }
 									</h3>
-									<p className="excerpt">
+									<p className="xwp-country-card__related-post-excerpt">
 										{ relatedPost.excerpt }
 									</p>
 								</a>
