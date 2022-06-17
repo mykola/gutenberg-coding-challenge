@@ -11,9 +11,7 @@ import {
 } from '@wordpress/components';
 import { useEffect, useState } from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
-import { select } from '@wordpress/data';
-import apiFetch from '@wordpress/api-fetch';
-import { addQueryArgs } from '@wordpress/url';
+import { useSelect } from '@wordpress/data';
 
 /**
  * Internal dependencies
@@ -26,12 +24,14 @@ import './editor.scss';
 export default function Edit( { attributes, setAttributes } ) {
 	const { countryCode, relatedPosts } = attributes;
 
-	const [ isPreview, setPreview ] = useState();
+	const [ preview, setPreview ] = useState();
 
-	useEffect( () => setPreview( countryCode ), [ countryCode ] );
+	useEffect( () => {
+		setPreview( !! countryCode );
+	}, [ countryCode ] );
 
 	const handleChangeCountry = () => {
-		if ( isPreview ) {
+		if ( preview ) {
 			setPreview( false );
 		} else if ( countryCode ) {
 			setPreview( true );
@@ -47,36 +47,29 @@ export default function Edit( { attributes, setAttributes } ) {
 		}
 	};
 
-	useEffect( () => {
-		async function getRelatedPosts() {
-			const postId = select( 'core/editor' ).getCurrentPostId();
+	const selectedRelatedPosts = useSelect(
+		( select ) => {
+			const currentPostId = select( 'core/editor' ).getCurrentPostId();
 
-			const query = {
+			return select( 'core' ).getEntityRecords( 'postType', 'post', {
 				search: countries[ countryCode ],
-				exclude: postId,
-			};
+				exclude: currentPostId,
+				_fields: [ 'id', 'title', 'excerpt', 'link' ],
+			} );
+		},
+		[ countryCode ]
+	);
 
-			try {
-				const posts = await apiFetch( {
-					path: addQueryArgs( '/wp/v2/posts', query ),
-				} );
-
-				setAttributes( {
-					relatedPosts:
-						posts?.map( ( relatedPost ) => ( {
-							...relatedPost,
-							title:
-								relatedPost.title?.rendered || relatedPost.link,
-							excerpt: relatedPost.excerpt?.rendered || '',
-						} ) ) || [],
-				} );
-			} catch ( e ) {
-				throw new Error( `HTTP error! Status: ${ e.message }` );
-			}
-		}
-
-		getRelatedPosts();
-	}, [ countryCode, setAttributes ] );
+	useEffect( () => {
+		setAttributes( {
+			relatedPosts:
+				selectedRelatedPosts?.map( ( relatedPost ) => ( {
+					...relatedPost,
+					title: relatedPost.title?.rendered || relatedPost.link,
+					excerpt: relatedPost.excerpt?.rendered || '',
+				} ) ) || [],
+		} );
+	}, [ selectedRelatedPosts, setAttributes ] );
 
 	const blockProps = useBlockProps();
 
@@ -93,7 +86,7 @@ export default function Edit( { attributes, setAttributes } ) {
 				</ToolbarGroup>
 			</BlockControls>
 			<div>
-				{ isPreview ? (
+				{ preview ? (
 					<Preview
 						countryCode={ countryCode }
 						relatedPosts={ relatedPosts }
