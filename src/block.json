@@ -2,7 +2,7 @@
 	"$schema": "https://schemas.wp.org/trunk/block.json",
 	"apiVersion": 2,
 	"name": "xwp/country-card",
-	"version": "1.0.0",
+	"version": "1.1.0",
 	"title": "Country Card",
 	"category": "widgets",
 	"icon": "admin-site",
@@ -19,27 +19,27 @@
 		"relatedPosts": {
 			"type": "array",
 			"source": "query",
-			"selector": ".related-post",
+			"selector": ".xwp-country-card__related-post",
 			"query": {
 				"title": {
 					"type": "string",
-					"selector": ".title",
+					"selector": ".xwp-country-card__related-post-title",
 					"source": "text"
 				},
 				"excerpt": {
 					"type": "string",
-					"selector": ".excerpt",
+					"selector": ".xwp-country-card__related-post-excerpt",
 					"source": "text"
 				},
 				"link": {
 					"type": "string",
-					"selector": ".link",
+					"selector": ".xwp-country-card__related-post-link",
 					"source": "attribute",
 					"attribute": "href"
 				},
 				"id": {
 					"type": "string",
-					"selector": ".link",
+					"selector": ".xwp-country-card__related-post-link",
 					"source": "attribute",
 					"attribute": "data-post-id"
 				}
